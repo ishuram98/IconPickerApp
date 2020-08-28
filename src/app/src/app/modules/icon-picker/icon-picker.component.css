@@ -58,10 +58,3 @@ mat-icon {
   width:50%;
 }
 
-.scrollableContent {
-padding:1px;
-
-  height: 70px;
-  margin: 0em;
-  overflow-y: auto;
-}

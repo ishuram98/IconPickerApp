@@ -524,6 +524,10 @@ export class IconPickerComponent implements OnInit {
   constructor(private dashboardService: IconService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
+    this.term = '';
+    this.titleChosen = 'All';
+    this.hideAll = true;
+    this.hideCategory = false;
   }
 
   toggleHidden(subdiv): void {
@@ -540,6 +544,7 @@ export class IconPickerComponent implements OnInit {
   }
 
   public displayAll(): void {
+    this.term = '';
     this.titleChosen = 'All';
     this.hideAll = true;
     this.hideCategory = false;
@@ -560,12 +565,14 @@ export class IconPickerComponent implements OnInit {
       this.IcofontSubcategory = subCategory;
       this.hideAll = false;
       this.hideCategory = true;
+      this.term = '';
     }
     if (category === 'Material') {
       this.IcofontSubcategory = ' ';
       this.MaterialSubcategory = subCategory;
       this.hideAll = false;
       this.hideCategory = true;
+      this.term = '';
     }
 
     console.log(subCategory);
