@@ -34,7 +34,7 @@ export class PageComponent implements OnInit {
 
   openDialog(): void {
     this.dialogRef = this.dialog.open(IconPickerComponent, {
-      width: '700px', height: '410px'
+      width: '700px', height: '450px'
     });
   }
 

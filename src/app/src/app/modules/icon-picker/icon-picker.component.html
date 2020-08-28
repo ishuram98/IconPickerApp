@@ -25,38 +25,72 @@
     </div>
   </mat-menu>
 
-    <!--Search icon-->
+  <!--Search Bar-->
   <div class="top-right">
-    <form class="example-form">
-      <input type="text" name="Search" placeholder="Search for an Icon" [formControl]="control" [(ngModel)]="name">
-    </form>
-  </div>
-</div>
 
-<div class="mat-typography">
-  <div class="row" style="height: 20px;">
-    <div class="col-sm-2" (click)="changeIcon(name)">
-      <div class="center">
-        <mat-icon>{{name}} </mat-icon>
-        <p style="word-wrap: break-word;">{{name}}</p>
-      </div>
-    </div>
-
-    <div class="col-md-2" (click)="changeIcon('icofont icofont-'+name)">
-      <div class="center">
-        <mat-icon> <span [class]="'icofont icofont-'+name"></span> </mat-icon>
-        <span class="icon-item-title">{{name}}</span>
-      </div>
-    </div>
+    <input type="text" name="Search" #in1="ngModel" placeholder="Search for an Icon" [(ngModel)]="term">
+<button (click)="Clear()">clear</button>
   </div>
+
 </div>
 
 <br>
 
+<!--Search display-->
 <mat-dialog-content class="mat-typography">
 
+  <div [hidden]="term.length<=0" style="height: 250px;">
+
+    <ng-container *ngFor="let category of IconPicker | keyvalue">
+
+      <ng-container *ngFor="let subdivision of category.value | keyvalue">
+        <ng-container *ngFor="let subdiv of subdivision.value | keyvalue ">
+          <ng-container *ngIf="subdiv.key =='content' ">
+
+            <ng-container>
+              <div class="col-sm-2" *ngFor="let icon of subdiv.value" title={{icon}}>
+                <ng-container *ngIf="icon.includes(term)">
+                  <div class="center" style="padding-top:10px">
+                    <ng-container *ngIf="category.key ==='IcoFont' ">
+                      <ng-container>
+                        <div class="row center">
+                          <mat-icon (click)="changeIcon(icon)"> <span [class]="icon"></span>
+                          </mat-icon>
+                        </div>
+                        <div class="row center">
+                          <span class="icon-item-title" (click)="changeIcon(icon)">{{icon}}</span>
+                        </div>
+                      </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="category.key ==='Material' ">
+                      <ng-container>
+                        <div class="row center">
+                          <mat-icon (click)="changeIcon(icon)"> <span class="material-icons">{{icon}}</span> </mat-icon>
+                        </div>
+                        <div class="row center">
+                          <span class="icon-item-title" (click)="changeIcon(icon)"
+                            style="word-wrap: break-word;">{{icon}}</span>
+                        </div>
+                      </ng-container>
+                    </ng-container>
+                  </div>
+                </ng-container>
+              </div>
+            </ng-container>
+
+          </ng-container>
+        </ng-container>
+      </ng-container>
+
+    </ng-container>
+
+
+  </div>
+
+  <br>
+
   <!--Displaying icons category wise-->
-  <div class="row" [hidden]="hideCategory">
+  <div class="row" *ngIf="hideCategory && !term" >
     <div class="container-fluid" style="display:inline-block;">
       <ng-container *ngFor="let subdivision of IconPicker.IcoFont | keyvalue">
         <ng-container *ngIf="subdivision.key ==IcofontSubcategory ">
@@ -81,11 +115,11 @@
                     <div class="center">
                       <ng-container>
                         <div class="row center">
-                          <mat-icon (click)="changeIcon('icofont '+icon)"> <span [class]="'icofont '+icon"></span>
+                          <mat-icon (click)="changeIcon(icon)"> <span [class]="icon"></span>
                           </mat-icon>
                         </div>
                         <div class="row center">
-                          <span class="icon-item-title" (click)="changeIcon('icofont '+icon)">{{icon}}</span>
+                          <span class="icon-item-title" (click)="changeIcon(icon)">{{icon}}</span>
                         </div>
                       </ng-container>
                     </div>
@@ -95,23 +129,20 @@
 
               <div [hidden]="subdivision.value['hidden']" [(ngModel)]="subdivision.value['hidden']" ngDefaultControl
                 name="toggle" [ngModelOptions]="{standalone: true}" class="row">
-
                 <div class="col-sm-2 " *ngFor="let icon of subdiv.value | slice:6;" title={{icon}}>
                   <div class="center">
                     <ng-container>
                       <div class="row center">
-                        <mat-icon (click)="changeIcon('icofont '+icon)"> <span [class]="'icofont '+icon"></span>
+                        <mat-icon (click)="changeIcon(icon)"> <span [class]="icon"></span>
                         </mat-icon>
                       </div>
                       <div class="row center">
-                        <span class="icon-item-title" (click)="changeIcon('icofont '+icon)">{{icon}}</span>
+                        <span class="icon-item-title" (click)="changeIcon(icon)">{{icon}}</span>
                       </div>
                     </ng-container>
                   </div>
                 </div>
-
               </div>
-              <hr>
             </ng-container>
           </ng-container>
         </ng-container>
@@ -170,7 +201,7 @@
                 </div>
 
               </div>
-              <hr>
+
             </ng-container>
           </ng-container>
         </ng-container>
@@ -179,8 +210,8 @@
     </div>
   </div>
 
-       <!--Displaying all icons-->
-  <div [hidden]="hideAll" class="row" style="height: 250px;">
+  <!--Displaying all icons-->
+  <div *ngIf="hideAll && !term" class="row" style="height: 250px;">
     <div class="container-fluid" style="display:inline-block;">
       <ng-container *ngFor="let category of IconPicker | keyvalue">
         <ng-container *ngFor="let subdivision of category.value | keyvalue">
@@ -202,14 +233,14 @@
               <div class="row" style="display:flex;">
                 <ng-container>
                   <div class="col-sm-2" *ngFor="let icon of subdiv.value | slice:0:6;" title={{icon}}>
-                    <div class="center">
+                    <div class="center" style="padding-top:2px">
                       <ng-container *ngIf="category.key ==='IcoFont' ">
                         <div class="row center">
-                          <mat-icon (click)="changeIcon('icofont '+icon)"> <span [class]="'icofont '+icon"></span>
+                          <mat-icon (click)="changeIcon(icon)"> <span [class]="icon"></span>
                           </mat-icon>
                         </div>
                         <div class="row center">
-                          <span class="icon-item-title" (click)="changeIcon('icofont '+icon)">{{icon}}</span>
+                          <span class="icon-item-title" (click)="changeIcon(icon)">{{ (icon | slice:8) }}</span>
                         </div>
                       </ng-container>
                       <ng-container *ngIf="category.key ==='Material' ">
@@ -217,8 +248,8 @@
                           <mat-icon (click)="changeIcon(icon)"> <span class="material-icons">{{icon}}</span> </mat-icon>
                         </div>
                         <div class="row center">
-                          <span class="icon-item-title" (click)="changeIcon(icon)"
-                            style="word-wrap: break-word;">{{icon}}</span>
+                          <span class="icon-item-title"
+                            (click)="changeIcon(icon)">{{(icon.length>10)? (icon | slice:0:6)+'..':(icon)}}</span>
                         </div>
                       </ng-container>
                     </div>
@@ -230,14 +261,15 @@
                 name="toggle" [ngModelOptions]="{standalone: true}" class="row">
 
                 <div class="col-sm-2 " *ngFor="let icon of subdiv.value | slice:6;" title={{icon}}>
-                  <div class="center">
+                  <div class="center" style="padding-top:10px">
                     <ng-container *ngIf="category.key ==='IcoFont' ">
                       <div class="row center">
-                        <mat-icon (click)="changeIcon('icofont '+icon)"> <span [class]="'icofont '+icon"></span>
+                        <mat-icon (click)="changeIcon(icon)"> <span [class]="icon"></span>
                         </mat-icon>
                       </div>
                       <div class="row center">
-                        <span class="icon-item-title" (click)="changeIcon('icofont '+icon)">{{icon}}</span>
+                        <span class="icon-item-title"
+                          (click)="changeIcon(icon)">{{(icon | slice:8)}}</span>
                       </div>
                     </ng-container>
                     <ng-container *ngIf="category.key ==='Material' ">
@@ -265,4 +297,3 @@
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
 </mat-dialog-actions>
-
