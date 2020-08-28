@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IconService } from './../icon.service';
 import { MatDialog } from '@angular/material/dialog';
-import { FormControl} from '@angular/forms';
+
 
 
 @Component({
@@ -20,9 +20,7 @@ export class IconPickerComponent implements OnInit {
   hideAll = true;
   hideCategory = true;
   public term = '';
-  public termLength = this.term.length;
 
-  control = new FormControl();
 
   public IconPicker = {
     IcoFont: {

@@ -27,11 +27,9 @@
 
   <!--Search Bar-->
   <div class="top-right">
-
-    <input type="text" name="Search" #in1="ngModel" placeholder="Search for an Icon" [(ngModel)]="term">
-<button (click)="Clear()">clear</button>
+    <input type="text" name="Search" placeholder="Search for an Icon" [(ngModel)]="term">
+    &nbsp;<button style="background-color: #e7e7e7;" (click)="Clear()">clear</button>
   </div>
-
 </div>
 
 <br>
@@ -58,7 +56,7 @@
                           </mat-icon>
                         </div>
                         <div class="row center">
-                          <span class="icon-item-title" (click)="changeIcon(icon)">{{icon}}</span>
+                          <span class="icon-item-title" (click)="changeIcon(icon)">{{ (icon | slice:8) }}</span>
                         </div>
                       </ng-container>
                     </ng-container>
@@ -90,7 +88,7 @@
   <br>
 
   <!--Displaying icons category wise-->
-  <div class="row" *ngIf="hideCategory && !term" >
+  <div class="row" *ngIf="hideCategory && !term">
     <div class="container-fluid" style="display:inline-block;">
       <ng-container *ngFor="let subdivision of IconPicker.IcoFont | keyvalue">
         <ng-container *ngIf="subdivision.key ==IcofontSubcategory ">
@@ -100,48 +98,23 @@
                 <div class="header-left">
                   <h3>IcoFont {{subdivision.key}} Icons</h3>
                 </div>
-                <div class="header-right">
-                  <button class="btn btn-default btn-work" mat-raised-button style="height:30px"
-                    *ngIf="subdivision.value['content'].length>6" (click)="toggleHidden(subdivision.value)">
-                    More<mat-icon>
-                      {{subdivision.value['toggleIcon']  ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}
-                    </mat-icon>
-                  </button>
-                </div>
               </div>
               <div class="row" style="display:flex;">
                 <ng-container>
-                  <div class="col-sm-2" *ngFor="let icon of subdiv.value | slice:0:6;" title={{icon}}>
-                    <div class="center">
+                  <div class="col-sm-2" *ngFor="let icon of subdiv.value" title={{icon}}>
+                    <div class="center" style="padding-top:10px">
                       <ng-container>
                         <div class="row center">
                           <mat-icon (click)="changeIcon(icon)"> <span [class]="icon"></span>
                           </mat-icon>
                         </div>
                         <div class="row center">
-                          <span class="icon-item-title" (click)="changeIcon(icon)">{{icon}}</span>
+                          <span class="icon-item-title" (click)="changeIcon(icon)">{{ (icon | slice:8) }}</span>
                         </div>
                       </ng-container>
                     </div>
                   </div>
                 </ng-container>
-              </div>
-
-              <div [hidden]="subdivision.value['hidden']" [(ngModel)]="subdivision.value['hidden']" ngDefaultControl
-                name="toggle" [ngModelOptions]="{standalone: true}" class="row">
-                <div class="col-sm-2 " *ngFor="let icon of subdiv.value | slice:6;" title={{icon}}>
-                  <div class="center">
-                    <ng-container>
-                      <div class="row center">
-                        <mat-icon (click)="changeIcon(icon)"> <span [class]="icon"></span>
-                        </mat-icon>
-                      </div>
-                      <div class="row center">
-                        <span class="icon-item-title" (click)="changeIcon(icon)">{{icon}}</span>
-                      </div>
-                    </ng-container>
-                  </div>
-                </div>
               </div>
             </ng-container>
           </ng-container>
@@ -156,19 +129,11 @@
                 <div class="header-left">
                   <h3>Material {{subdivision.key}} Icons</h3>
                 </div>
-                <div class="header-right">
-                  <button class="btn btn-default btn-work" mat-raised-button style="height:30px"
-                    *ngIf="subdivision.value['content'].length>6" (click)="toggleHidden(subdivision.value)">
-                    More<mat-icon>
-                      {{subdivision.value['toggleIcon']  ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}
-                    </mat-icon>
-                  </button>
-                </div>
               </div>
               <div class="row" style="display:flex;">
                 <ng-container>
-                  <div class="col-sm-2" *ngFor="let icon of subdiv.value | slice:0:6;" title={{icon}}>
-                    <div class="center">
+                  <div class="col-sm-2" *ngFor="let icon of subdiv.value" title={{icon}}>
+                    <div class="center" style="padding-top:10px">
                       <ng-container>
                         <div class="row center">
                           <mat-icon (click)="changeIcon(icon)"> <span class="material-icons">{{icon}}</span> </mat-icon>
@@ -182,26 +147,6 @@
                   </div>
                 </ng-container>
               </div>
-
-              <div [hidden]="subdivision.value['hidden']" [(ngModel)]="subdivision.value['hidden']" ngDefaultControl
-                name="toggle" [ngModelOptions]="{standalone: true}" class="row">
-
-                <div class="col-sm-2 " *ngFor="let icon of subdiv.value | slice:6;" title={{icon}}>
-                  <div class="center">
-                    <ng-container>
-                      <div class="row center">
-                        <mat-icon (click)="changeIcon(icon)"> <span class="material-icons">{{icon}}</span> </mat-icon>
-                      </div>
-                      <div class="row center">
-                        <span class="icon-item-title" (click)="changeIcon(icon)"
-                          style="word-wrap: break-word;">{{icon}}</span>
-                      </div>
-                    </ng-container>
-                  </div>
-                </div>
-
-              </div>
-
             </ng-container>
           </ng-container>
         </ng-container>
@@ -233,7 +178,7 @@
               <div class="row" style="display:flex;">
                 <ng-container>
                   <div class="col-sm-2" *ngFor="let icon of subdiv.value | slice:0:6;" title={{icon}}>
-                    <div class="center" style="padding-top:2px">
+                    <div class="center" style="padding-top:10px">
                       <ng-container *ngIf="category.key ==='IcoFont' ">
                         <div class="row center">
                           <mat-icon (click)="changeIcon(icon)"> <span [class]="icon"></span>
@@ -248,8 +193,8 @@
                           <mat-icon (click)="changeIcon(icon)"> <span class="material-icons">{{icon}}</span> </mat-icon>
                         </div>
                         <div class="row center">
-                          <span class="icon-item-title"
-                            (click)="changeIcon(icon)">{{(icon.length>10)? (icon | slice:0:6)+'..':(icon)}}</span>
+                          <span class="icon-item-title" (click)="changeIcon(icon)"
+                            style="word-wrap: break-word;">{{icon}}</span>
                         </div>
                       </ng-container>
                     </div>
@@ -268,8 +213,7 @@
                         </mat-icon>
                       </div>
                       <div class="row center">
-                        <span class="icon-item-title"
-                          (click)="changeIcon(icon)">{{(icon | slice:8)}}</span>
+                        <span class="icon-item-title" (click)="changeIcon(icon)">{{(icon | slice:8)}}</span>
                       </div>
                     </ng-container>
                     <ng-container *ngIf="category.key ==='Material' ">
@@ -295,5 +239,5 @@
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cancel</button>
+  <button style="background-color: #e7e7e7;" mat-button mat-dialog-close>Cancel</button>
 </mat-dialog-actions>
